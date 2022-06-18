@@ -36,8 +36,13 @@ app.get('/:externalArticleId', async (req: Request, res: Response) => {
 
 	axiosInstance.get(externalArticleId)
 		.then(({ data }: any ) => {
-			const parser = new JSDOM(data);
-			res.send(parser.window.document.querySelector('#enc-abstract').innerHTML);
+			console.debug(data);
+			if (data) {
+				const parser = new JSDOM(data);
+				res.send(parser.window.document.querySelector('#enc-abstract').innerHTML);
+			} else {
+				res.send(null);
+			}
 		})
 		.catch((err: any) => {
 			// Log the error and send back an empty array
